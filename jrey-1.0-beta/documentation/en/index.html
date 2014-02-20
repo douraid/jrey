@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+<script>hljs.initHighlightingOnLoad();</script>
+</script>
+		<title>JRey framework documentations</title>
+	</head>
+
+	<body>
+	
+	<header>JRey framework: Quick start tutorial</header>
+	
+	<section>
+	<h2>What is JRey?</h2>
+
+	<p>JRey is a light Java web MVC2 open source framework designed for small and medium projects in need for a concrete MVC2 implementation.</p>
+	<p>Implementing and using Jrey is pretty easy! No harmful configuration is needed, all the instructions on how to use JRey is included in this single-page documentation</p>
+	<p>JRey is using <b><a href="http://velocity.apache.org/engine/releases/velocity-1.7/" target="_blank">Apache Velocity</a></b> as templating engine! You can find the documentation on how using Apache Velocity <a href="http://velocity.apache.org/engine/releases/velocity-1.7/translations/user-guide_fr.html" target="_blank">by clicking here</a></p>
+	</section>
+	
+	
+	<section>
+	<h2>Getting started</h2>
+	<p>Before you start your coding, you will need a slight configuration:</p>
+	
+	<h3>Add JRey and Velocity jars to your web project:</h3>
+	<p>The very first thing you need to do is to add the required jars to your project's WEB-INF/lib directory. Assuming that you're using eclipse as IDE, your jars should appear as in the following screenshot:</p>
+	<img src="images/add-jars-eclipse.png" />
+	
+	<h3>Tell your application server to forward all the requests to JRey's front controller:</h3>
+	
+	<p>In your <b>web.xml</b> file, add the following lines</p>
+	<pre><code>
+		&lt;servlet&gt;
+			&lt;servlet-name&gt;JRey-Main&lt;/servlet-name&gt;
+			&lt;servlet-class&gt;com.jrey.controller.MainController&lt;/servlet-class&gt;
+		&lt;/servlet&gt;
+		
+		&lt;servlet-mapping&gt;
+			&lt;servlet-name&gt;JRey-Main&lt;/servlet-name&gt;
+			&lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+		&lt;/servlet-mapping&gt;
+	</code></pre>
+	
+	<h3>Create your unique JRrey configuration file:</h3>
+	
+	<p>Under your source folder, create a jrey-meta.xml file as demonstrated in the following screenshots</p>
+	<img src="images/create-jrmf-eclipse.png" />
+	
+	<p>Now you're ready to start using JRey!</p>
+	</section>
+	
+	<section>
+	<h2>Your first controller and view</h2>
+	<h3>Creating and declaring a controller</h3>
+	<p>As you may now, the controller in the MVC model stands for an entry point to your application. To create a controller, two things are needed to be done:
+		<ol>
+			<li>Create a simple java class annotated with @Controller</li>
+			<li>Tell JRey about this controller in the jrey-meta.xml file</li>
+		</ol>
+	
+	</p>
+	
+	<p>Assuming that you created a FirstController.java class in the com.controllers package, it should looks like</p>
+	<img src="images/create-first-controller-eclipse.png" />
+	
+	<p>Now you need to declare this controller inside the &lt;controllers&gt; tag in your jrey-meta.xml file:</p>
+	<img src="images/declare-controller-eclipse.png" />
+	
+	<h3>Your controller's actions:</h3>
+	<p>A controller's action is sub-level entry point to your application. Each controller may holds one or more actions.</p>
+	<p>Programatically, an action is a simple method that will be fired once it's called.</p>
+	<p>Each action should possess its own access URL, which means a unique URL that, once requested, will fire the action!</p>
+	<p>In Jrey, an action is a simple controller's method annotated with @action,a name and an url arguments is given to the @action annotation. The url argument will be used to access your action from a web browser:</p>
+	
+	<img src="images/first-action-eclipse.png" />
+	
+	<p>Now let's fire the action using the web browser!</p>
+	<img src="images/fire-first-controller.png" />
+	
+	<p>Okay, you've got a blank page, that's normal! Yes, in order to get a content, you need to associate a page to your controller. But how?</p>
+	
+	<h3>Associate a view to your action</h3>
+	<p>In most times, an action is associated to a view (a static or dynamic html file for example) to render some content to the user. It's easy to get it done with JRey! All you have to do is to add the @View annotation to your action.</p>
+	<p>The @View annotation takes in argument the <b>path</b> parameter which contains the view path.</p>
+	<p>Basically, you can store your views anywhere under the WebContent directory, which is the default root path for your views.</p>
+	<p>Assuming that you've created a file called hello.html under a directory called <b>views</b>:</p>
+	<img src="images/first-view-eclipse.png" />
+	<p>You can associate this view to your action as demonstrated in the following screenshot:</p>
+	
+	<img src="images/associate-view-to-action-eclipse.png" />
+	
+	<p>Let's fire the action again and see the result!</p>
+	
+	<img src="images/fire-first-controller-with-view.png" />
+
+	<p>Hola! the view content is showing on the browser!</p>
+	
+	<h3>Sending some data to the view</h3>
+	<p>In most cases, you want to send  some data from your action to its view. JRey gives you the ability to do it in 2 different ways:</p>
+	
+	<u><h4>1. Give it what your action returns:</h4></u>
+	<p>As your action is simply a java class method, it would return something instead of void, right? Then whenever your action returns a Map object (HashMap for example), its content will be transformed to variables that could be used within your view.</p>
+	<p>To better understand this concept, take a look at the following example: </p>
+	<img src="images/passing-data-to-view-eclipse.png" />
+	
+	<p>Now let's edit the view to display the returned variables:</p>
+	<img src="images/showing-data-in-view-eclipse.png" />
+	
+	<p>Now let's see the result in the browser!</p>
+	<img src="images/showing-data-in-browser-eclipse.png" />
+
+	<u><h4>2. Using the view resources:</h4></u>
+	<p>View resources are some kind of shared data between all your controller's actions and views. Once declared, a view resource could be initialized or modified within one or more actions, and accessible from any view that is associated to one of these actions.</p>
+	<p>A view resource is a class attribute that is annotated with @ViewResource. In the following example, we will create a new action and a view resource that will be tested on both actions.</p>
+	<img src="images/create-view-resource-eclipse.png" />
+	<p>The key argument in the @ViewResource annotation is used to retrieve its value from within a view via the $Request object as demonstrated in the following:</p>
+	
+	<img src="images/showing-view-resource-1.png" />
+		<img src="images/showing-view-resource-2.png" />
+
+		<p>Let's see now what's rendered by each action:</p>
+		
+			<img src="images/showing-view-resource-1-browser.png" />
+		<img src="images/showing-view-resource-2-browser.png" />
+		
+		<p>Got it? I hope so.</p>
+	</section>
+	
+	<section>
+	<h2>Using the HTTP Request and Response objects.</h2>
+	<p>Web applications are based on HTTP protocol, and it's a must that you can access, and sometimes alter, the client request and the server's response information.</p>
+	<p>JRey Framework provides the ability to use these objects by injecting them inside your controller using the @InjectedRequest and the @InjectedResponse annotations as demonstrated in the following example:</p>
+	<img src="images/injected-req-resp.png" />
+	<p>The JRey's Request and Response objects contains all the methods contained in the HttpServletRequest and the HttpServletResponse objects, besides some extra methods which are:</p>
+		<b>For the Request object:</b>
+		<ul>
+			<li>getViewResource(String key): Retrieves a view resource</li>
+			<li>getUrlParameter(String key): Retrieves a parameter* (see the following section) from the requested url </li>
+			<li>getCurrentController(): Returns the current controller's name</li>
+			<li>getCurrentAction(): Returns the current action's name</li>
+			<li>generateUrl(String actionName): Returns the specified action's URL</li>
+			<li>generateUrl(String actionName, String[] keys,  String[] values): Returns the specified action's url with its parameters (Could be used from within a controller)</li>
+			<li>generateUrl(String actionName, Map<String,String> params): Returns the specified action's url with its parameters (Could be used from within a controller or a view)</li>
+
+		</ul>
+		<b>For the Request object:</b>
+		<p>No extra methods for the Response object in this version.</p>
+	<br />
+	<p>To use the Request and the Response objects from within a view, use simply the global variables $Request and $Response</p>
+	<p>The HttpSessionObject is accessible from within a view via the global variable $Session</p>
+	</section>
+	
+	<section>
+	<h2>A little bit more with actions</h2>
+	<h3>Specify the accepted HTTP method for an action</h3>
+	<p>By default, an action accepts any HTTP method (POST, GET, PUT, DELETE,...etc.). To limit the accepted HTTP methods by your action, it's pretty easy, all you need to do is to specify the accepted Method inside the @Action's annotation <b>method</b> field </p>
+	<p>The <b>method</b> field accepts a single value from the Action.Method enumeration which contains the following values: GET,POST,PUT,DELETE,HEAD,OPTIONS,TRACE and ANY</p>
+	<p>The default method value for an action's HTTP method is Method.ANY which means that your action accepts any HTTP method.</p>
+	<p>Take a look at the following example: </p>
+	<img src="images/using-action-method.png" /><br /><br />
+	<img src="images/action-login-view.png" />
+	<p>The first action will show a login form (/views/login.html file), the login form's action attribute contains the url to the processLogin action which is generated by the $Request.generateUrl() method.</p>
+	<p>Once the form is submitted, nothing much will happen, the browser will redirect you back to the loginform action.</p>
+	
+	<h3>Parametrize the action's URL</h3>
+	<p>The HTTP protocol allows to send some parameters through the URL as << pretty >> as http://mywebsite.com/somepage?param1=value1&... </p>
+	<p>In fact, two major things will lead to you to change the way how your URLs looks like:</p>
+	<ol>
+		<li>Your website will be easier to surf on when your URLs looks simple and pretty</li>
+		<li>Using classical URL parameters would affect your website SEO to make it less visible by Google and its colleagues</li>
+	</ol>
+	<p>You can add one or more parameters to your action's URL, each parameter should be prefixed with ":" and its name should contains alphanumeric characters only (a-z, A-Z and 0-9).</p>
+	<p>You can retrieve an URL parameter value from whitin your controller's action or its view using the Request.getUrlParameter(String parameterName) method</p>
+	<p>Now assuming that you have an action that is supposed to show books filtered by category, we will add to the URL the category parameter as in the following example:</p>
+	<img src="images/url-parameter.png" />
+	<p>Once fired from the browser, the action will return the following response:</p>
+	<img src="images/url-parameter-result.png" />
+	</section>
+	
+	<section>
+		<h2>JRey and Layouts</h2>
+	
+		<p>In JRey framework, you could apply a layout to one or more views using the @Layout annotation. A layout is typically a simple html file in which you should define some <b>regions</b>.</p>
+		<p>A region is a location in your layout file which could be overloaded with a view content.</p>
+		<p>A region is defined using the <b>[region::region-name][region::end]</b> special tag</p>
+		
+	<h3>Apply a layout to a single view</h3>
+	
+		<p>In the following example, we will create a simple layout that we will associate to a simple action's view: </p>
+		<img src="images/layout-file.png" />
+		
+	<p>Next, we'll create a simple action on that we'll apply the created Layout using the @Layout annotation:</p>
+	<img src="images/view-layout.png" />
+	<p>Finally, let's create the view file (simpleview.html) which will be associated to simpleaction(), and overload the layout's regions content:</p>
+	
+	<img src="images/layout-view.png" />
+	
+	<p>Now let's see the action's output on the browser:</p>
+
+		<img src="images/layout-first-example-browser.png" />
+
+	<p>Please note that an action's view cannot contain an extra content outside the overloaded layout regions, in this case the outer content will not be included in the output.</p>
+	
+	
+		<h3>Apply a layout to the whole controller</h3>
+		<p>You can apply a layout to all your controller's actions, in this case, all the actions' views will inherit the specified layout.</p>
+		<p>To do this, all you need to do is to annotate the controller with @Layout instead of the action as demonstrated in the following example:</p>
+
+				<img src="images/controller-layout.png" />
+				
+				
+	   <h3>The @NoLayout annotation</h3>
+		<p>When you apply layout to a controller, all its actions' views will adopt it and should overload its regions, but in some cases you want a simple action within your controller without any layout applied, in this case, annotate it with @NoLayout. Take a look at the following example: </p>
+	
+	<img src="images/no-layout-first-example.png" />
+	
+	<p>The @NoLayout annotation could also be applied to a controller, this is very useful when you define a default layout in the jrey-meta.xml file (see the next section)</p>
+	</section>
+	
+	<section>
+		<h2>More configuration</h2>
+		<h3>Define a global layout to your application</h3>
+		<p>In most cases, when you build a website, you have always a common layout between many actions/controller. You can define a common Layout through the jrey-meta.xml file inside the config tag as you can see in the following screenshot:</p>
+	
+		<img src="images/default-layout.png" />
+		
+		<p>Now that you've defined the default layout, it will be automatically applied to all your controllers' actions, unless you use the @Layout annotation to use another, or @NoLayout to remove it from a controller or an action.</p>
+	
+		<h3>Define your views' default path</h3>
+		<p>You may need to place your views and layouts inside a specific directory under the webroot, and for sure you'll want to avoid typing the full path to them each time you use @View or @Layout.</p>
+		<p>In order to define a default views' path, specify in the jrey-meta.xml file, inside the config tag as shown in the following screenshot:</p>
+		<img src="images/views-root-path.png" />
+		<p>Once you defined the views' root path, you will have to put all your views and layouts under the specified directory, or its descendants</p>
+	</section>
+	
+	<section>
+	<h2>More with controllers</h2>
+	<h3>PreExecute methods</h3>
+	<p>Sometimes you would like to execute some code before any action in your controller is fired. To do this the JRey's way, you would implement a simple method (one or more) and annotate it with @PreExecute, once done, this/these method(s) will be fired before the requested action is executed.</p>
+	<p>Take a look at the following example to better understand this concept: </p>
+	<img src="images/preexecute.png" />
+	<p>In this example, the checkUserAuthentication() method is called before any action.</p>
+	</section>
+	
+	</body>
+
+</html>

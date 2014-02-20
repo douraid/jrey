@@ -1,0 +1,16 @@
+body{
+font-family:Arial,Verdana;
+}
+
+h2{
+color:#2B89D6;
+}
+
+h3{color:#5A8A12; border-bottom:1px dashed grey; padding-bottom:0.5em;}
+
+header{
+font-size:42px;
+text-align:center;
+font-weight:bold;
+margin-bottom:3em;
+}
